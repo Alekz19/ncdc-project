@@ -139,7 +139,7 @@
                             </select>
                     </div>
                     <div>
-                        <input type="checkbox" name="check" id="checkBox" class="check_box" checked value="Yes" onchange="checkBoxStatus()">
+                       <input type="checkbox" name="check" id="checkBox" class="check_box" checked value="Yes" onchange="checkBoxStatus(this)">
                         <label for ="checkBox" class="checklabel"> Recently came into Nigeria within the last 14 days?</label>
                     </div>
                     <div>
@@ -147,7 +147,7 @@
                     </div>
                 </fieldset>
             </form>
-            <form id ="data-2" onsubmit="return updateData()">
+            <form id ="data-2">
                 <fieldset>
                     <legend>Covid-19 Database</legend>
                                <div>
@@ -168,8 +168,8 @@
                             </select>
                     </div>
                     <div>
-                        <input type="checkbox" name="check" id="checkBox2" class="check_box" checked value="Yes" onchange="checkboxStatus()">
-                        <label for ="checkBox-2" class="checklabel"> Recently came into Nigeria within the last 14 days?</label>
+                        <input type="checkbox" name="check" id="checkBox2" class="check_box" checked value="Yes" onchange="checkBoxStatus(this)">
+                        <label for ="checkBox" class="checklabel"> Recently came into Nigeria within the last 14 days?</label>
                     </div>
                     <div>
                         <input type="submit" class="submitbutton" value="Update">
