@@ -1,21 +1,22 @@
 "use strict";
-let rIndex;
 const dataTable = document.getElementById('database'),
     submit = document.getElementById("data"),
-    update = document.getElementById("data-2");
+    update = document.getElementById("data-2"),
+    modal = document.getElementById("modal");
 let rows = dataTable.children[1].getElementsByTagName('tr');
-//function that activate the checkbox status 
-function checkBoxStatus(event) { 
-    if (event.checked) {
-      event.value = "Yes"; 
-    } else { 
-      event.value = "No"; } 
+//function that activate the checkbox status
+function checkBoxStatus(status) {
+    if (status.checked) {
+        status.value = "Yes";
+    } else {
+        status.value = "No";
+    }
 }
 //Page Date and Time Function
 function currentDate() {
     let showDate = document.getElementById('showDate'),
         d = new Date(),
-        days = ["Sun,", "Mon,", "Tue,", "Wed,", "Thu,", "Fri,", "Sat,"],
+        days = ["Sun.", "Mon.", "Tue.", "Wed.", "Thu.", "Fri.", "Sat."],
         today = days[d.getDay()],
         months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"],
         thisMonth = months[d.getMonth()],
@@ -27,10 +28,9 @@ function currentDate() {
         meridian;
     if (hour >= 12) {
         meridian = "PM";
+    } else {
+        meridian = "AM";
     }
-        else {
-            meridian = "AM";
-        }
     if (hour === 0) {
         hour = 12;
     }
@@ -47,8 +47,9 @@ function currentDate() {
         minute = "0" + minute;
     }
     showDate.textContent = today + " " + thisMonth + " " + date + " " + year + ". " + hour + ":" + minute + ":" + second + " " + meridian;
-    const t = setTimeout(function () {currentDate(); 
-            }, 1000);
+    const t = setTimeout(function() {
+        currentDate();
+    }, 1000);
 }
 currentDate();
 //function that shows the submit form data in the table
@@ -72,48 +73,58 @@ function showData() {
     tableRows.appendChild(td4);
     tableRows.appendChild(td5);
     tableRows.appendChild(td6);
-submit.reset();
- dataTable.children[1].insertBefore(tableRows, dataTable.children[0].childNodes[tableRows.length]);
+    submit.reset();
+    dataTable.children[1].insertBefore(tableRows, dataTable.children[0].childNodes[tableRows.length]);
     return false;
 };
 //Function that edit any row being clicked
-function edit(currentRow) { 
-      if (currentRow.parentElement.parentElement.cells[3].innerHTML === "No") {
-  document.getElementById('checkBox2').checked = false;
-      } else {
-  document.getElementById('checkBox2').checked = true;
-      }
-    submit.style.display = "none";
-    update.style.display = "block";
+function edit(event) {
+    if (event.parentElement.parentElement.cells[3].innerHTML === "No") {
+        document.getElementById('checkBox2').checked = false;
+    } else {
+        document.getElementById('checkBox2').checked = true;
+    }
+
+
+    modal.style.display = "block";
+    submit.style.visibility = "hidden";
     for (let i = 0; i < rows.length; i++) {
-        rows[i].onclick = function editBtn() { 
-            rIndex = this.rowIndex;
+        rows[i].onclick = function editBtn() {
             let name = this.cells[0].innerHTML,
-            fullName = name.split(" "),
-            fName = fullName[0],
-            lName = fullName[1],
-            f1 = document.getElementById('fname-2'),
-            f2 = document.getElementById('lname-2'),
-            f3 = document.getElementById('email-2'),
-            f4 = document.getElementById('gender-2');
+                fullName = name.split(" "),
+                fName = fullName[0],
+                lName = fullName[1],
+                f1 = document.getElementById('fname-2'),
+                f2 = document.getElementById('lname-2'),
+                f3 = document.getElementById('email-2'),
+                f4 = document.getElementById('gender-2');
             f1.value = fName;
             f2.value = lName;
             f3.value = this.cells[1].innerHTML;
             f4.value = this.cells[2].innerHTML;
-return false;
-};
+        };
+
+        //function that close the pop-up form
+        let closePopUp = document.getElementsByClassName("close")[0];
+        closePopUp.onclick = function() {
+            modal.style.display = "none";
+            submit.style.visibility = "visible";
+        }
+
         //function that update form data in the table
-    update.onsubmit = function updateData() {
-        update.style.display = "none";
-        submit.style.display = "block";  currentRow.parentElement.parentElement.cells[0].innerHTML = document.getElementById('fname-2').value + " " + document.getElementById('lname-2').value;
-currentRow.parentElement.parentElement.cells[1].innerHTML = document.getElementById('email-2').value;
-currentRow.parentElement.parentElement.cells[2].innerHTML = document.getElementById('gender-2').value;
-currentRow.parentElement.parentElement.cells[3].innerHTML = document.getElementById('checkBox2').value;   
-return false;
+        update.onsubmit = function updateData() {
+            modal.style.display = "none";
+            submit.style.visibility = "visible";
+            event.parentElement.parentElement.cells[0].innerHTML = document.getElementById('fname-2').value + " " + document.getElementById('lname-2').value;
+            event.parentElement.parentElement.cells[1].innerHTML = document.getElementById('email-2').value;
+            event.parentElement.parentElement.cells[2].innerHTML = document.getElementById('gender-2').value;
+            event.parentElement.parentElement.cells[3].innerHTML = document.getElementById('checkBox2').value;
+            return false;
+        };
     };
-};
 }
 //Function that delete any row being clicked
-    function delBtn(r) {
-        var del = r.parentNode.parentNode.rowIndex;       dataTable.deleteRow(del);
+function delBtn(r) {
+    var del = r.parentNode.parentNode.rowIndex;
+    dataTable.deleteRow(del);
 };
