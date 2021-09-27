@@ -10,7 +10,7 @@ body {
 }
 
 fieldset {
-    background-image: url('corona.jpg');
+    background-image: url('images/corona.jpg');
     width: 80%;
     margin: 10px auto;
 }
