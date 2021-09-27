@@ -90,6 +90,7 @@ label {
 
 label.gender {
     width: 80px;
+    height: 15px;
     margin-left: 20px;
 }
 
